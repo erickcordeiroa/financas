@@ -22,5 +22,7 @@ class AdminAccessMiddleware
         if(auth()->check() && $user->level == 1){
             return $next($request);
         }
+
+        return redirect()->route('root');
     }
 }

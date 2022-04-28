@@ -16,15 +16,24 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+//ROOT SYSTEM
+Route::get('/root', function(){
+    if(Auth::user()->level == 1){
+        return redirect()->route('admin.dash');
+    }
+
+    return redirect()->route('app.dash');
+})->name('root');
+
 //Routers Web
 Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
 
 //Routers App
 Route::prefix('/app')->middleware(['auth', 'client'])->group(function(){
-    Route::get('/dashboard', [App\Http\Controllers\Clients\AppDashboardController::class, 'index']);
+    Route::get('/dashboard', [App\Http\Controllers\Clients\AppDashboardController::class, 'index'])->name('app.dash');
 });
 
 //Routers Admin
 Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function(){
-    Route::get('/dashboard', [App\Http\Controllers\Admin\AdminDashboardController::class, 'index']);
+    Route::get('/dashboard', [App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('admin.dash');
 });
