@@ -14,7 +14,11 @@ class AppDashboardController extends Controller
      */
     public function index()
     {
-        return view("client.dashboard");
+        return view("client.dashboard", [
+            'unpaid'=> 2500,
+            'paid' => 3000,
+            'bg' => 'danger'
+        ]);
     }
 
     /**
