@@ -17,12 +17,12 @@ class ClientAccessMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
-        if(auth()->check() && $user->level > 1){
-            return $next($request);
+        if($user->level <= 1){
+            return redirect()->route('admin.dash');
         }
 
-        return redirect()->route('root');
+        return $next($request);
     }
 }

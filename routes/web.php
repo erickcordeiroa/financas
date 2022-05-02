@@ -16,15 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-//ROOT SYSTEM
-Route::get('/root', function(){
-    if(Auth::user()->level == 1){
-        return redirect()->route('admin.dash');
-    }
-
-    return redirect()->route('app.dash');
-})->name('root');
-
 //Routers Web
 Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
 

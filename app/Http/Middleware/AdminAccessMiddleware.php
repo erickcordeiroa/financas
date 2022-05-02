@@ -19,10 +19,10 @@ class AdminAccessMiddleware
     {
         $user = Auth::user();
 
-        if(auth()->check() && $user->level == 1){
-            return $next($request);
+        if($user->level != 1){
+            return redirect()->route('app.dash');
         }
 
-        return redirect()->route('root');
+        return $next($request);
     }
 }
