@@ -72,10 +72,10 @@
             </section>
             <section class="wallets col-lg-5">
                 <div class="d-flex justify-content-around aligns-items-center mb-2">
-                    <div class="col-sm-6"><a href="#" class="btn btn-lg btn-outline-success btn-block"><i
-                                class="fas fa-plus-circle mr-1"></i> Nova Receita</a></div>
-                    <div class="col-sm-6"><a href="#" class="btn btn-lg btn-outline-danger btn-block"><i
-                                class="fas fa-plus-circle mr-1"></i> Nova Despesa</a></div>
+                    <div class="col-sm-6"><button class="btn btn-lg btn-outline-success btn-block" data-toggle="modal" data-target="#modalIncome">
+                        <i class="fas fa-plus-circle mr-1"></i> Nova Receita</button></div>
+                    <div class="col-sm-6"><button class="btn btn-lg btn-outline-danger btn-block" data-toggle="modal" data-target="#modalExpense">
+                        <i class="fas fa-plus-circle mr-1"></i> Nova Despesa</button></div>
                 </div>
                 <div class="small-box mx-2 bg-{{ $bg }}">
                     <div class="pb-4 pt-4 px-4">
@@ -93,69 +93,6 @@
             </section>
         </div>
     </div>
-@endsection
 
-@section('js')
-    <script>
-        $(function() {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
-
-            //--------------
-            //- AREA CHART -
-            //--------------
-
-            // Get context with jQuery - using jQuery's .get() method.
-            var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
-
-            var areaChartData = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [{
-                        label: 'Digital Goods',
-                        backgroundColor: 'rgba(60,141,188,0.9)',
-                        borderColor: 'rgba(60,141,188,0.8)',
-                        pointRadius: false,
-                        pointColor: '#3b8bba',
-                        pointStrokeColor: 'rgba(60,141,188,1)',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [28, 48, 40, 19, 86, 27, 90]
-                    },
-                    {
-                        label: 'Electronics',
-                        backgroundColor: 'rgba(210, 214, 222, 1)',
-                        borderColor: 'rgba(210, 214, 222, 1)',
-                        pointRadius: false,
-                        pointColor: 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: [65, 59, 80, 81, 56, 55, 40]
-                    },
-                ]
-            }
-
-            var areaChartOptions = {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: false
-                },
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display: false,
-                        }
-                    }],
-                    yAxes: [{
-                        gridLines: {
-                            display: false,
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
+    @include('client.components.model')
 @endsection

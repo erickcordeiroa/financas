@@ -233,23 +233,56 @@ return [
         // Sidebar items:
         [
             'text'        => 'Controle',
-            'url'         => 'admin/pages',
+            'url'         => 'app/dashboard',
             'icon'        => 'fas fa-home',
+            'can'         => 'user-client',
+        ],
+        [
+            'text'        => 'Carteiras',
+            'url'         => 'app/wallets',
+            'icon'        => 'fas fa-wallet',
+            'can'         => 'user-client',
+        ],
+        [
+            'text'        => 'Receber',
+            'url'         => 'app/paid',
+            'icon'        => 'fas fa-calendar-check',
+            'can'         => 'user-client',
+        ],
+        [
+            'text'        => 'Pagar',
+            'url'         => 'app/paid',
+            'icon'        => 'fas fa-calendar-times',
+            'can'         => 'user-client',
+        ],
+        [
+            'text'        => 'Fixas',
+            'url'         => 'app/fixed',
+            'icon'        => 'fas fa-exchange-alt',
+            'can'         => 'user-client',
         ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
-            'url'  => 'admin/settings',
+            'url'  => 'app/settings',
             'icon' => 'fas fa-fw fa-user',
+            'can'  => 'user-client'
         ],
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'text' => 'Assinatura',
+            'url'  => 'app/settings',
+            'icon' => 'fas fa-mug-hot',
+            'can'  => 'user-client'
+        ],
+        [
+            'text' => 'Suporte',
+            'url'  => 'app/support',
+            'icon' => 'fas fa-flag',
         ],
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
+            'can'     => 'user-admin',
             'submenu' => [
                 [
                     'text' => 'level_one',
