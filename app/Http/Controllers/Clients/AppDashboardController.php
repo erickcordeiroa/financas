@@ -17,7 +17,7 @@ class AppDashboardController extends Controller
         return view("client.dashboard", [
             'unpaid'=> 2500,
             'paid' => 3000,
-            'bg' => 'danger'
+            'bg' => 'success'
         ]);
     }
 

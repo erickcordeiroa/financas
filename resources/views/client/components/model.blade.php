@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <div class="form-group">
-                                <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i> Data:</label>
+                                <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i> Carteira:</label>
                                 <select name="wallet" required class="form-control">
                                     <option value="#"> Minha Carteira </option>
                                 </select>
@@ -156,7 +156,7 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <div class="form-group">
-                                <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i> Data:</label>
+                                <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i> Carteira:</label>
                                 <select name="wallet" required class="form-control">
                                     <option value="#"> Minha Carteira </option>
                                 </select>
