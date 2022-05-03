@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Models\Clients\AppCategory;
+use App\Models\Clients\AppInvoice;
+use App\Models\Clients\AppWallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppDashboardController extends Controller
 {
@@ -14,76 +18,32 @@ class AppDashboardController extends Controller
      */
     public function index()
     {
+        $categories = AppCategory::all();
+        $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
+        $expense = AppInvoice::where('user_id', Auth::user()->id)
+            ->where('type', 'expense')
+            ->where('status', 'unpaid')
+            ->limit(5)
+            ->orderBy('due_at', 'DESC')->get();
+
+
+        $income = AppInvoice::where('user_id', Auth::user()->id)
+            ->where('status', 'unpaid')
+            ->where('type', 'income')
+            ->limit(5)
+            ->orderBy('due_at', 'DESC')->get();
+
+        $unpaid = 2000;
+        $paid = 3000;
+
         return view("client.dashboard", [
-            'unpaid'=> 2500,
-            'paid' => 3000,
-            'bg' => 'success'
+            'unpaid'=> $unpaid,
+            'paid' => $paid,
+            'bg' => ($unpaid > $paid)? 'danger' : 'success',
+            'categories' => $categories,
+            'wallets' => $wallets,
+            'expense' => $expense,
+            'income' => $income,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

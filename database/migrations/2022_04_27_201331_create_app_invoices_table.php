@@ -18,7 +18,7 @@ class CreateAppInvoicesTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('wallet_id')->constrained('app_wallets');
             $table->foreignId('category_id')->constrained('app_categories');
-            $table->integer('invoice_of');
+            $table->integer('invoice_of')->nullable();
             $table->string('description');
             $table->string('type');
             $table->decimal('value', 10, 2);
@@ -26,8 +26,8 @@ class CreateAppInvoicesTable extends Migration
             $table->date('due_at');
             $table->string('repeat_when');
             $table->string('period')->default('month');
-            $table->integer('enrollments');
-            $table->integer('enrollments_of');
+            $table->integer('enrollments')->nullable();
+            $table->integer('enrollments_of')->nullable();
             $table->string('status')->default('unpaid');
             $table->timestamps();
         });

@@ -22,6 +22,7 @@ Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name
 //Routers App
 Route::prefix('/app')->middleware(['auth', 'client'])->group(function(){
     Route::get('/dashboard', [App\Http\Controllers\Clients\AppDashboardController::class, 'index'])->name('app.dash');
+    Route::post('/launch', [App\Http\Controllers\Clients\AppController::class, 'launch'])->name('app.launch');
 });
 
 //Routers Admin

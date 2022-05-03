@@ -8,9 +8,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form action="#" method="post" enctype="multipart/form-data">
+            <form action="{{ route('app.launch') }}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    @csrf
                     <input type="hidden" name="type" value="income">
+                    <input type="hidden" name="currency" value="BRL" />
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <div class="form-group">
@@ -38,9 +40,12 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <div class="form-group">
-                                <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i> Carteira:</label>
+                                <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i>
+                                    Carteira:</label>
                                 <select name="wallet" required class="form-control">
-                                    <option value="#"> Minha Carteira </option>
+                                    @foreach ($wallets as $item)
+                                        <option value="{{ $item->id }}">&ofcir; {{ $item->wallet }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -49,7 +54,9 @@
                                 <label for="category" class="text-gray"><i class="fas fa-filter"></i>
                                     Categoria:</label>
                                 <select name="category" required class="form-control">
-                                    <option value="#"> Minha Categoria </option>
+                                    @foreach ($categories as $item)
+                                        <option value="{{ $item->id }}">&ofcir; {{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -105,12 +112,13 @@
                             </div>
                         </div>
                     </div> <!-- ROW -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success"><i class="fas fa-check"></i> LANÇAR RECEITAS</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> LANÇAR
+                        RECEITAS</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -126,9 +134,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form action="#" method="post" enctype="multipart/form-data">
+            <form action="{{ route('app.launch') }}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    @csrf
                     <input type="hidden" name="type" value="expense">
+                    <input type="hidden" name="currency" value="BRL" />
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <div class="form-group">
@@ -156,9 +166,12 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <div class="form-group">
-                                <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i> Carteira:</label>
+                                <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i>
+                                    Carteira:</label>
                                 <select name="wallet" required class="form-control">
-                                    <option value="#"> Minha Carteira </option>
+                                    @foreach ($wallets as $item)
+                                        <option value="{{ $item->id }}">&ofcir; {{ $item->wallet }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -167,7 +180,9 @@
                                 <label for="category" class="text-gray"><i class="fas fa-filter"></i>
                                     Categoria:</label>
                                 <select name="category" required class="form-control">
-                                    <option value="#"> Minha Categoria </option>
+                                    @foreach ($categories as $item)
+                                        <option value="{{ $item->id }}">&ofcir; {{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -223,18 +238,23 @@
                             </div>
                         </div>
                     </div> <!-- ROW -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger"><i class="fas fa-check"></i> LANÇAR DESPESA</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-check"></i> LANÇAR
+                        DESPESA</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"></script>
     <script>
+        $('input[name=value]').mask('000.000.000,00', {
+            reverse: true
+        });
         /*
          * FROM CHECKBOX
          */
