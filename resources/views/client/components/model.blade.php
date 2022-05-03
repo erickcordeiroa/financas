@@ -261,14 +261,17 @@
         $("[data-checkbox]").click(function(e) {
             var checkbox = $(this);
             let checkboxVal = checkbox.data('checkbox');
+            $('input[type=radio]').removeAttr('checked');
 
-            if (checkboxVal == 'single') {
+            if (checkboxVal == 'single') {    
+                checkbox.parent().find('input[type=radio]').attr('checked', 'checked');
                 $('.repeate_item').slideUp();
                 $('.repeate_item_fixed').css('style', 'none');
                 $('.repeate_item_enrollment').css('style', 'none');
             }
 
             if (checkboxVal == 'fixed') {
+                checkbox.parent().find('input[type=radio]').attr('checked', 'checked');
                 $('.repeate_item').slideUp();
                 $('.repeate_item_enrollment').css('style', 'none');
                 $('.repeate_item_fixed').slideDown();
@@ -276,6 +279,7 @@
             }
 
             if (checkboxVal == 'enrollment') {
+                checkbox.parent().find('input[type=radio]').attr('checked', 'checked');
                 $('.repeate_item').slideUp();
                 $('.repeate_item_fixed').css('style', 'none');
                 $('.repeate_item_enrollment').slideDown();

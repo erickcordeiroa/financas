@@ -20,6 +20,6 @@
     <td><span class="badge {{ $invoice->status == 'paid' ? 'badge-success' : 'badge-danger' }} badge-success">{{ $invoice->status == 'paid' ? 'Recebido' : 'Em Aberto' }}</span></td>
     <td>
         <div class="sparkbar" data-color="#00a65a" data-height="20">
-            R$&nbsp;{{ number_format($invoice->value, 2, '.', ',') }}</div>
+            R$&nbsp;{{ number_format($invoice->value, 2, ',', '.') }}</div>
     </td>
 </tr>

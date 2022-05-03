@@ -244,32 +244,32 @@ return [
             'can'         => 'user-client',
         ],
         [
-            'text'        => 'Receber',
-            'url'         => 'app/paid',
+            'text'        => 'Contas a Receber',
+            'url'         => 'app/income',
             'icon'        => 'fas fa-calendar-check',
             'can'         => 'user-client',
         ],
         [
-            'text'        => 'Pagar',
-            'url'         => 'app/paid',
+            'text'        => 'Contas a Pagar',
+            'url'         => 'app/expense',
             'icon'        => 'fas fa-calendar-times',
             'can'         => 'user-client',
         ],
         [
-            'text'        => 'Fixas',
+            'text'        => 'Contas Fixas',
             'url'         => 'app/fixed',
             'icon'        => 'fas fa-exchange-alt',
             'can'         => 'user-client',
         ],
         ['header' => 'account_settings'],
         [
-            'text' => 'profile',
+            'text' => 'Meu Perfil',
             'url'  => 'app/settings',
             'icon' => 'fas fa-fw fa-user',
             'can'  => 'user-client'
         ],
         [
-            'text' => 'Assinatura',
+            'text' => 'Assinaturas',
             'url'  => 'app/settings',
             'icon' => 'fas fa-mug-hot',
             'can'  => 'user-client'
