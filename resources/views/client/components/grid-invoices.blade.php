@@ -14,20 +14,27 @@
                 @foreach ($invoice as $item)
                     <tr>
                         <td>{{ (new DateTime($item->due_at))->format('d/m/Y') }}</td>
-                        <td>{{ $item->description }}</td>
+                        <td><a href="#" class="text-bold">{{ $item->description }}</a></td>
                         <td>
                             <span
                                 class="badge {{ $item->status == 'paid' ? 'badge-success' : 'badge-danger' }} badge-success">
-                                {{ $item->status == 'paid' ? 'Recebido' : 'Em Aberto' }}</span>
+                                @if ($item->type == 'income')
+                                    {{ $item->status == 'paid' ? 'Recebido' : 'Em Aberto' }}
+                                @else
+                                    {{ $item->status == 'paid' ? 'Pago' : 'Em Aberto' }}
+                                @endif
+                            </span>
                         </td>
                         <td>{{ number_format($item->value, 2, ',', '.') }}</td>
                         <td>
-                            {!!($item->status == 'paid')? '<i class="text-success far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>'!!}
+                            {!! $item->status == 'paid' ? '<i class="text-success far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-
+    <div class="card-footer">
+        {{ $invoice->links() }}
+    </div>
 </div>
