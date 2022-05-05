@@ -84,7 +84,7 @@
                     <div class="icon">
                         <i class="fas fa-chart-pie"></i>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="{{ route('app.income') }}" class="small-box-footer">
                         Mais Informações <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>

@@ -5,6 +5,7 @@
                 <tr>
                     <th>Data</th>
                     <th>Descrição</th>
+                    <th>Categoria</th>
                     <th>Status</th>
                     <th>Valor</th>
                     <th></th>
@@ -15,6 +16,7 @@
                     <tr>
                         <td>{{ (new DateTime($item->due_at))->format('d/m/Y') }}</td>
                         <td><a href="#" class="text-bold">{{ $item->description }}</a></td>
+                        <td>{{ $item->categories->name }}</td>
                         <td>
                             <span
                                 class="badge {{ $item->status == 'paid' ? 'badge-success' : 'badge-danger' }} badge-success">
@@ -35,6 +37,11 @@
         </table>
     </div>
     <div class="card-footer">
-        {{ $invoice->links() }}
+        @if (isset($filters))
+            {{ $invoice->appends($filters)->links() }}
+        @else
+            {{ $invoice->links() }}
+        @endif
+
     </div>
 </div>

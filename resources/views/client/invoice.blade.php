@@ -50,29 +50,30 @@
         <div class="row">
             <div class="col-md-10">
 
-                <form action="#" method="post" enctype="multipart/form-data">
+                <form action="{{ route('app.search') }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="type" value="{{$type}}">
                     <div class="row">
                         <div class="form-group col-md-3">
-                            <select name="status" required class="form-control">
-                                <option value="all">Todas</option>
-                                <option value="paid">Todas as Recebidas</option>
-                                <option value="unpaid">Todas as Não Recebidas</option>
+                            <select name="status" class="form-control">
+                                <option value="">Todas</option>
+                                <option {{!empty($filters['status']) && $filters['status'] == 'paid'? 'selected': ''}} value="paid">Todas as Recebidas</option>
+                                <option {{!empty($filters['status']) && $filters['status'] == 'unpaid'? 'selected': ''}} value="unpaid">Todas as Não Recebidas</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3">
-                            <select name="category" required class="form-control">
-                                <option value="all">Todas</option>
+                            <select name="category" class="form-control">
+                                <option value="">Todas</option>
                                 @foreach ($categories as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    <option {{!empty($filters['category']) && $filters['category'] == $item->id ? 'selected': ''}} value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="date" name="start" required placeholder="dd/mm/yyyy" class="form-control">
+                            <input type="date" name="start" placeholder="dd/mm/yyyy" class="form-control" value="{{!empty($filters['start'])? $filters['start']: ''}}">
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="date" name="end" required placeholder="dd/mm/yyyy" class="form-control">
+                            <input type="date" name="end" placeholder="dd/mm/yyyy" class="form-control" value="{{!empty($filters['end'])? $filters['end']: ''}}">
                         </div>
                         <div class="form-group col-md-1">
                             <button type="submit" class="btn btn-outline-primary btn-small"><i
@@ -97,7 +98,7 @@
         </div><!-- row top filter -->
         <div class="row">
             <div class="col-md-12">
-                @include('client.components.grid-invoices', ['invoice' => ($type == 'income')? $income : $expense ])
+                @include('client.components.grid-invoices', ['invoice' => $invoice])
             </div>
         </div>
     </div>

@@ -88,9 +88,10 @@ class AppController extends Controller
 
         return view('client.invoice', [
             'type' => "income",
+            'filters' => '',
             'categories' =>  $categories,
             'wallets' => $wallets,
-            'income' => $income
+            'invoice' => $income
         ]);
     }
 
@@ -106,13 +107,48 @@ class AppController extends Controller
 
         return view('client.invoice', [
             'type' => "expense",
+            'filters' => '',
             'categories' =>  $categories,
             'wallets' => $wallets,
-            'expense' => $expense
+            'invoice' => $expense
         ]);
     }
 
-    //Function Auxiliares
+    public function search(Request $request)
+    {
+        $filters = $request->except('_token');
+
+        $validate = Validator::make($filters, []);
+
+        if ((!empty($filters['start']) && empty($filters['end'])) || (empty($filters['start']) && !empty($filters['end']))) {
+            $validate->errors()->add("message", "Ooops! As datas precisam ser preenchidas!");
+        }
+
+        if ((!empty($filters['start']) && !empty($filters['end'])) && $filters['start'] > $filters['end']) {
+            $validate->errors()->add("message", "Ooops! A Primeira data não pode estar maior que a segunda!");
+        }
+
+        if (count($validate->errors()) > 0) {
+            return redirect()->route('app.' . $filters['type'])->withErrors($validate);
+        }
+
+        $invoice = $this->filter($filters);
+
+        $categories = AppCategory::all();
+        $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
+
+        return view('client.invoice', [
+            'type' => $filters['type'],
+            'filters' => $filters,
+            'categories' =>  $categories,
+            'wallets' => $wallets,
+            'invoice' => $invoice
+        ]);
+    }
+
+    /**************************************
+     ******* FUNCTIONS AUXILIARES ********
+     ***************************************/
     public function enrollments($data, $invoiceOf, $enrollment)
     {
         $invoice = new AppInvoice();
@@ -135,5 +171,81 @@ class AppController extends Controller
         $invoice->status = (date($invoice->due_at) <= date("Y-m-d") ? "paid" : "unpaid");
         $invoice->enrollments_of = $enrollment + 1;
         $invoice->save();
+    }
+
+    public function filter($filters)
+    {
+        $invoice = AppInvoice::where('user_id', Auth::user()->id)
+            ->where('type', $filters['type'])
+            ->where(function ($query) use ($filters) {
+                //Status Only
+                if (
+                    !empty($filters['status']) && empty($filters['category'])
+                    && empty($filters['start']) && empty($filters['end'])
+                ) {
+
+                    $query->where('status', $filters['status']);
+                }
+
+                //Category Only
+                if (
+                    empty($filters['status']) && !empty($filters['category'])
+                    && empty($filters['start']) && empty($filters['end'])
+                ) {
+
+                    $query->where('category_id', $filters['category']);
+                }
+
+                //Dates Only
+                if (
+                    empty($filters['status']) && empty($filters['category'])
+                    && !empty($filters['start']) && !empty($filters['end'])
+                ) {
+
+                    $query->whereBetween('due_at', [$filters['start'], $filters['end']]);
+                }
+
+                //Category and Status
+                if (
+                    !empty($filters['status']) && !empty($filters['category'])
+                    && empty($filters['start']) && empty($filters['end'])
+                ) {
+
+                    $query->where('status', $filters['status'])->where('category_id', $filters['category']);
+                }
+
+                //Status and Dates
+                if (
+                    !empty($filters['status']) && empty($filters['category'])
+                    && !empty($filters['start']) && !empty($filters['end'])
+                ) {
+
+                    $query->where('status', $filters['status'])->whereBetween('due_at', [$filters['start'], $filters['end']]);
+                }
+
+                //Category and Dates
+                if (
+                    empty($filters['status']) && !empty($filters['category'])
+                    && !empty($filters['start']) && !empty($filters['end'])
+                ) {
+
+                    $query->where('category_id', $filters['category'])->whereBetween('due_at', [$filters['start'], $filters['end']]);
+                }
+
+                //All
+                if (
+                    !empty($filters['status']) && !empty($filters['category'])
+                    && !empty($filters['start']) && !empty($filters['end'])
+                ) {
+
+                    $query->where('status', $filters['status'])
+                        ->where('category_id', $filters['category'])
+                        ->whereBetween('due_at', [$filters['start'], $filters['end']]);
+                }
+            })
+            ->orderBy('due_at', 'ASC')
+            ->paginate(25);
+
+        return $invoice;
     }
 }
