@@ -9,7 +9,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('app.dash') }}"><i class="icon fas fa-home"></i> Controle</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('app.dash') }}"><i class="icon fas fa-home"></i>
+                                Controle</a></li>
                     </ol>
                 </div>
             </div>
@@ -59,9 +60,7 @@
                                     <div class=""></div>
                                 </div>
                             </div>
-                            <canvas id="areaChart"
-                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 586px;"
-                                width="586" height="250" class="chartjs-render-monitor"></canvas>
+                            <canvas id="areaChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -77,9 +76,9 @@
                 </div>
                 <div class="small-box mx-2 bg-{{ $bg }}">
                     <div class="pb-4 pt-4 px-4">
-                        <h3>R$ {{ number_format($paid - $unpaid, 2, ',', '.') }}</h3>
-                        <p class="mb-0">Receitas: R$ {{ number_format($paid, 2, ',', '.') }}</p>
-                        <p class="mb-2">Despesas: R$ {{ number_format($unpaid, 2, ',', '.') }}</p>
+                        <h3>R$ {{ number_format($sIncome - $sExpense, 2, ',', '.') }}</h3>
+                        <p class="mb-0">Receitas: R$ {{ number_format($sIncome, 2, ',', '.') }}</p>
+                        <p class="mb-2">Despesas: R$ {{ number_format($sExpense, 2, ',', '.') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-chart-pie"></i>
@@ -143,4 +142,43 @@
     </div>
 
     @include('client.components.model', ['wallets' => $wallets, 'categories' => $categories])
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+        ];
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'À Receber',
+                backgroundColor: 'rgb(40, 167, 69)',
+                borderColor: 'rgb(40, 167, 69)',
+                data: [0, 20, 3, 5, 15, 40, 50],
+            },
+            {
+                label: 'À Pagar',
+                backgroundColor: 'rgb(220, 53, 69)',
+                borderColor: 'rgb(220, 53, 69)',
+                data: [0, 10, 5, 2, 20, 30, 45],
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        const myChart = new Chart(
+            document.getElementById('areaChart'),
+            config
+        );
+    </script>
 @endsection

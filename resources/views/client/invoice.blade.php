@@ -57,8 +57,8 @@
                         <div class="form-group col-md-3">
                             <select name="status" class="form-control">
                                 <option value="">Todas</option>
-                                <option {{!empty($filters['status']) && $filters['status'] == 'paid'? 'selected': ''}} value="paid">Todas as Recebidas</option>
-                                <option {{!empty($filters['status']) && $filters['status'] == 'unpaid'? 'selected': ''}} value="unpaid">Todas as Não Recebidas</option>
+                                <option {{!empty($filters['status']) && $filters['status'] == 'paid'? 'selected': ''}} value="paid">Todas as {{$type == 'income'? "Recebidas" : "Pagas"}}</option>
+                                <option {{!empty($filters['status']) && $filters['status'] == 'unpaid'? 'selected': ''}} value="unpaid">Todas Em Aberto</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3">

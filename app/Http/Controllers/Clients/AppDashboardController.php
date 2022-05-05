@@ -26,24 +26,42 @@ class AppDashboardController extends Controller
             ->limit(5)
             ->orderBy('due_at', 'DESC')->get();
 
-
         $income = AppInvoice::where('user_id', Auth::user()->id)
             ->where('status', 'unpaid')
             ->where('type', 'income')
             ->limit(5)
             ->orderBy('due_at', 'DESC')->get();
 
-        $unpaid = 2000;
-        $paid = 3000;
+        $invoice = $this->balanceInvoices();
 
         return view("client.dashboard", [
-            'unpaid'=> $unpaid,
-            'paid' => $paid,
-            'bg' => ($unpaid > $paid)? 'danger' : 'success',
+            'sIncome' => $invoice['sumIncome'],
+            'sExpense' => $invoice['sumExpense'],
+            'bg' => ($invoice['sumExpense'] > $invoice['sumIncome']) ? 'danger' : 'success',
             'categories' => $categories,
             'wallets' => $wallets,
             'expense' => $expense,
             'income' => $income,
         ]);
+    }
+
+    public function balanceInvoices()
+    {
+        $expense = AppInvoice::where('user_id', Auth::user()->id)
+            ->where('type', 'expense')
+            ->where('status', 'unpaid')
+            ->get();
+
+        $income = AppInvoice::where('user_id', Auth::user()->id)
+            ->where('status', 'unpaid')
+            ->where('type', 'income')
+            ->get();
+
+        $sumExpense = $expense->sum('value');
+        $sumIncome = $income->sum('value');
+
+        $result = ['sumExpense' => $sumExpense, 'sumIncome' => $sumIncome];
+
+        return $result;
     }
 }
