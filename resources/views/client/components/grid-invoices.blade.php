@@ -3,9 +3,10 @@
         <table class="table table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th>Data</th>
                     <th>Descrição</th>
+                    <th>Vencimento</th>
                     <th>Categoria</th>
+                    <th>Parcela</th>
                     <th>Status</th>
                     <th>Valor</th>
                     <th></th>
@@ -14,9 +15,16 @@
             <tbody>
                 @foreach ($invoice as $item)
                     <tr>
-                        <td>{{ (new DateTime($item->due_at))->format('d/m/Y') }}</td>
                         <td><a href="#" class="text-bold">{{ $item->description }}</a></td>
+                        <td> Dia {{ (new DateTime($item->due_at))->format('d/m') }}</td>
                         <td>{{ $item->categories->name }}</td>
+                        @if ($item->repeat_when == 'enrollment')
+                            <td>{{ $item->enrollments_of }} de {{ $item->enrollments }}</td>
+                        @elseif($item->repeat_when == 'fixed')
+                            <td><i class="fas fa-exchange-alt"></i> Fixa</td>
+                        @else
+                            <td>Única</td>
+                        @endif
                         <td>
                             <span
                                 class="badge {{ $item->status == 'paid' ? 'badge-success' : 'badge-danger' }} badge-success">

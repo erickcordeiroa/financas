@@ -74,11 +74,11 @@
                             data-target="#modalExpense">
                             <i class="fas fa-plus-circle mr-1"></i> Nova Despesa</button></div>
                 </div>
-                <div class="small-box mx-2 bg-{{ $bg }}">
+                <div class="small-box mx-2 bg-{{ $balance->color }}">
                     <div class="pb-4 pt-4 px-4">
-                        <h3>R$ {{ number_format($sIncome - $sExpense, 2, ',', '.') }}</h3>
-                        <p class="mb-0">Receitas: R$ {{ number_format($sIncome, 2, ',', '.') }}</p>
-                        <p class="mb-2">Despesas: R$ {{ number_format($sExpense, 2, ',', '.') }}</p>
+                        <h3>R$ {{ number_format($balance->sumIncome - $balance->sumExpense, 2, ',', '.') }}</h3>
+                        <p class="mb-0">Receitas: R$ {{ number_format($balance->sumIncome, 2, ',', '.') }}</p>
+                        <p class="mb-2">Despesas: R$ {{ number_format($balance->sumExpense, 2, ',', '.') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-chart-pie"></i>
@@ -146,28 +146,24 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
+            {!! $chart->categories !!}
         ];
 
         const data = {
             labels: labels,
             datasets: [{
-                label: 'À Receber',
-                backgroundColor: 'rgb(40, 167, 69)',
-                borderColor: 'rgb(40, 167, 69)',
-                data: [0, 20, 3, 5, 15, 40, 50],
-            },
-            {
-                label: 'À Pagar',
-                backgroundColor: 'rgb(220, 53, 69)',
-                borderColor: 'rgb(220, 53, 69)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }]
+                    label: 'À Receber',
+                    backgroundColor: 'rgb(40, 167, 69)',
+                    borderColor: 'rgb(40, 167, 69)',
+                    data: [{!! $chart->income !!}],
+                },
+                {
+                    label: 'À Pagar',
+                    backgroundColor: 'rgb(220, 53, 69)',
+                    borderColor: 'rgb(220, 53, 69)',
+                    data: [{!! $chart->expense !!}],
+                }
+            ]
         };
 
         const config = {

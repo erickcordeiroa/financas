@@ -22,4 +22,9 @@
         <div class="sparkbar" data-color="#00a65a" data-height="20">
             R$&nbsp;{{ number_format($invoice->value, 2, ',', '.') }}</div>
     </td>
+    <td>
+        {!! $invoice->status == 'paid' ? 
+            '<i style="cursor: pointer" class="text-success far fa-thumbs-up"></i>' : 
+            '<i style="cursor: pointer" class="text-danger far fa-thumbs-down"></i>' !!}
+    </td>
 </tr>
