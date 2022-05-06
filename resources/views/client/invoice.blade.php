@@ -5,21 +5,19 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Contas a {{ $type == 'income' ? 'Receber' : 'Pagar' }}</h1>
+                    <h1 class="m-0">Editar Conta</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('app.dash') }}"><i class="icon fas fa-home"></i>
                                 Controle</a></li>
-                        <li class="breadcrumb-item"><a
-                                href="{{ $type == 'income' ? route('app.income') : route('app.expense') }}"><i
-                                    class="icon fas fa-calendar"></i> Contas a
-                                {{ $type == 'income' ? 'Receber' : 'Pagar' }}</a></li>
+                        <li class="breadcrumb-item"><i class="icon fas fa-pencil-alt"></i> Editar </a></li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="container-fluid">
         <div class="row">
             @if ($errors->any())
@@ -46,61 +44,97 @@
                 </div>
             @endif
         </div>
-        
-        <div class="row">
-            <div class="col-md-10">
 
-                <form action="{{ route('app.search') }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="type" value="{{$type}}">
-                    <div class="row">
-                        <div class="form-group col-md-3">
-                            <select name="status" class="form-control">
-                                <option value="">Todas</option>
-                                <option {{!empty($filters['status']) && $filters['status'] == 'paid'? 'selected': ''}} value="paid">Todas as {{$type == 'income'? "Recebidas" : "Pagas"}}</option>
-                                <option {{!empty($filters['status']) && $filters['status'] == 'unpaid'? 'selected': ''}} value="unpaid">Todas Em Aberto</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <select name="category" class="form-control">
-                                <option value="">Todas</option>
-                                @foreach ($categories as $item)
-                                    <option {{!empty($filters['category']) && $filters['category'] == $item->id ? 'selected': ''}} value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <input type="date" name="start" placeholder="dd/mm/yyyy" class="form-control" value="{{!empty($filters['start'])? $filters['start']: ''}}">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <input type="date" name="end" placeholder="dd/mm/yyyy" class="form-control" value="{{!empty($filters['end'])? $filters['end']: ''}}">
-                        </div>
-                        <div class="form-group col-md-1">
-                            <button type="submit" class="btn btn-outline-primary btn-small"><i
-                                    class="fas fa-filter"></i></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-2 float-right">
-                @if ($type == 'income')
-                    <div class="col-md-12">
-                        <button class="btn btn-small btn-outline-success btn-block" data-toggle="modal"
-                            data-target="#modalIncome">
-                            <i class="fas fa-plus-circle mr-1"></i> Nova Receita</button>
-                    </div>
-                @else
-                    <div class="col-md-12"><button class="btn btn-small btn-outline-danger btn-block"
-                            data-toggle="modal" data-target="#modalExpense">
-                            <i class="fas fa-plus-circle mr-1"></i> Nova Despesa</button></div>
-                @endif
-            </div>
-        </div><!-- row top filter -->
         <div class="row">
-            <div class="col-md-12">
-                @include('client.components.grid-invoices', ['invoice' => $invoice])
+            <div class="col-md-6">
+                <div class="card">
+                    <form action="{{ route('app.launch') }}" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            @csrf
+                            <input type="hidden" name="type" value="{{ $invoice->type }}">
+                            <input type="hidden" name="currency" value="BRL" />
+                            <div class="row">
+                                <div class="col-md-12 mb-2">
+                                    <div class="form-group">
+                                        <label for="description" class="text-gray"><i class="fas fa-book-open"></i>
+                                            Descrição:</label>
+                                        <input type="text" name="description" required class="form-control"
+                                            placeholder="Ex: Aluguel" value="{{ $invoice->description }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="value" class="text-gray"><i class="far fa-money-bill-alt"></i>
+                                            Valor:</label>
+                                        <input type="text" name="value" required class="form-control" placeholder="0,00"
+                                            maxlength="22" value="{{ number_format($invoice->value, 2, ',', '.') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="due_at" class="text-gray"><i class="far fa-calendar-alt"></i>
+                                            Dia Vencimento:</label>
+                                        <input type="number" name="due_day" required class="form-control"
+                                            value="{{ date('d', strtotime($invoice->due_at)) }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-2">
+                                    <div class="form-group">
+                                        <label for="wallet" class="text-gray"><i class="fas fa-wallet"></i>
+                                            Carteira:</label>
+                                        <select name="wallet" required class="form-control">
+                                            @foreach ($wallets as $item)
+                                                <option {{ $invoice->wallet_id == $item->id ? 'selected' : '' }}
+                                                    value="{{ $item->id }}">&ofcir; {{ $item->wallet }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="category" class="text-gray"><i class="fas fa-filter"></i>
+                                            Categoria:</label>
+                                        <select name="category" required class="form-control">
+                                            @foreach ($categories as $item)
+                                                <option {{ $invoice->category_id == $item->id ? 'selected' : '' }}
+                                                    value="{{ $item->id }}">&ofcir; {{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-group">
+                                        <label class="text-gray"><i class="fas fa-filter"></i> Status:</label>
+                                        <select name="status" class="form-control">
+                                            <?php if ($invoice->type == "fixed_income" || $invoice->type == "fixed_expense"): ?>
+                                            <option <?= $invoice->status != 'paid' ?: 'selected' ?> value="paid">&ofcir;
+                                                Ativa</option>
+                                            <option <?= $invoice->status != 'unpaid' ?: 'selected' ?> value="unpaid">&ofcir;
+                                                Inativa
+                                            </option>
+                                            <?php else: ?>
+                                            <option <?= $invoice->status == 'paid' ? 'selected' : '' ?> value="paid">
+                                                &ofcir; <?= $invoice->type == 'income' ? 'Recebida' : 'Paga' ?></option>
+                                            <option <?= $invoice->status == 'unpaid' ? 'selected' : '' ?> value="unpaid">
+                                                &ofcir; <?= $invoice->type == 'income' ? 'Não recebida' : 'Não paga' ?>
+                                            </option>
+                                            <?php endif; ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div> <!-- ROW -->
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" class="btn btn-outline-danger"><i class="fas fa-times"></i>
+                                EXCLUIR</button>
+                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> EDITAR
+                                {{ $invoice->type == 'income' ? 'RECEITA' : 'DESPESA' }}</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    @include('client.components.model', ['wallets' => $wallets, 'categories' => $categories])
 @endsection

@@ -1,5 +1,5 @@
 <tr>
-    <td><a href="#" class="text-bold">{{ $invoice->description }}</a></td>
+    <td><a href="{{ route('app.invoice', ['id' => $invoice->id]) }}" class="text-bold">{{ $invoice->description }}</a></td>
     <td>
         <?php
         $now = new DateTime();

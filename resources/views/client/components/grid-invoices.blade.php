@@ -15,7 +15,7 @@
             <tbody>
                 @foreach ($invoice as $item)
                     <tr>
-                        <td><a href="#" class="text-bold">{{ $item->description }}</a></td>
+                        <td><a href="{{ route('app.invoice', ['id' => $item->id]) }}" class="text-bold">{{ $item->description }}</a></td>
                         <td> Dia {{ (new DateTime($item->due_at))->format('d/m') }}</td>
                         <td>{{ $item->categories->name }}</td>
                         @if ($item->repeat_when == 'enrollment')

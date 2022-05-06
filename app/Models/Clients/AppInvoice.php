@@ -59,7 +59,7 @@ class AppInvoice extends Model
                     $newItem->invoice_of = $invoice;
                     $newItem->description = $fixedItem->description;
                     $newItem->type = str_replace("fixed_", "", $fixedItem->type);
-                    $newItem->value = str_replace([".", ","], ["", "."], $fixedItem->value);
+                    $newItem->value = $fixedItem->value;
                     $newItem->currency = $fixedItem->currency;
                     $newItem->due_at = $item->format("Y-m-d");
                     $newItem->repeat_when = $fixedItem->repeat_when;

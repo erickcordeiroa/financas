@@ -73,7 +73,7 @@
                             <tbody>
                                 @foreach ($invoice as $item)
                                     <tr>
-                                        <td><a href="#" class="text-bold">
+                                        <td><a href="{{ route('app.invoice', ['id' => $item->id]) }}" class="text-bold">
                                             {{ ($item->type == "fixed_income" ? "Receita / " : "Despesa / "); }}
                                             {{ $item->description }}
                                         </a></td>

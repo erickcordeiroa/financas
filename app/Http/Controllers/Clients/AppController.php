@@ -92,7 +92,7 @@ class AppController extends Controller
             'end' => date('Y-m-t')
         ];
 
-        return view('client.invoice', [
+        return view('client.invoices', [
             'type' => "income",
             'filters' => $filters,
             'categories' =>  $categories,
@@ -117,7 +117,7 @@ class AppController extends Controller
             'end' => date('Y-m-t')
         ];
 
-        return view('client.invoice', [
+        return view('client.invoices', [
             'type' => "expense",
             'filters' => $filters,
             'categories' =>  $categories,
@@ -138,6 +138,21 @@ class AppController extends Controller
 
         return view('client.recurrences', [
             'type' => "fixed",
+            'categories' =>  $categories,
+            'wallets' => $wallets,
+            'invoice' => $invoices
+        ]);
+    }
+
+    public function invoice($id){
+        $categories = AppCategory::all();
+        $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
+
+        $invoices = AppInvoice::where('user_id', Auth::user()->id)
+            ->where('id', $id)
+            ->first();
+
+        return view('client.invoice', [
             'categories' =>  $categories,
             'wallets' => $wallets,
             'invoice' => $invoices
@@ -167,7 +182,7 @@ class AppController extends Controller
         $categories = AppCategory::all();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
 
-        return view('client.invoice', [
+        return view('client.invoices', [
             'type' => $filters['type'],
             'filters' => $filters,
             'categories' =>  $categories,
