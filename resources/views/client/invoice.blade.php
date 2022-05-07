@@ -46,10 +46,11 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-lg-8 col-md-10 col-sm-12">
                 <div class="card">
-                    <form action="{{ route('app.launch') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('app.update.invoice', ['id' => $invoice->id]) }}" method="post" enctype="multipart/form-data">
                         <div class="modal-body">
+                            @method('PUT')
                             @csrf
                             <input type="hidden" name="type" value="{{ $invoice->type }}">
                             <input type="hidden" name="currency" value="BRL" />
@@ -130,7 +131,7 @@
                                 EXCLUIR</button>
                             <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> EDITAR
                                 {{ $invoice->type == 'income' ? 'RECEITA' : 'DESPESA' }}</button>
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                            <a href="{{ route('app.dash') }}" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</a>
                         </div>
                     </form>
                 </div>

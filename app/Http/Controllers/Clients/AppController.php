@@ -144,7 +144,8 @@ class AppController extends Controller
         ]);
     }
 
-    public function invoice($id){
+    public function invoice($id)
+    {
         $categories = AppCategory::all();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
 
@@ -157,6 +158,80 @@ class AppController extends Controller
             'wallets' => $wallets,
             'invoice' => $invoices
         ]);
+    }
+
+    public function updateInvoice($id, Request $request)
+    {
+        $data = $request->only([
+            'type', 'currency', 'description', 'value', 'due_day', 'wallet', 'category', 'status'
+        ]);
+
+        $validate = Validator::make($data, [
+            'type' => ['required', 'string'],
+            'description' => ['required', 'string', 'max:100'],
+            'value' => ['required', 'between:0,99.99'],
+            'due_day' => ['required', 'integer', 'max:31', 'min:1'],
+            'wallet' => ['required', 'integer'],
+            'category' => ['required', 'integer'],
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->route('app.invoice', ["id" => $id])
+                ->withErrors($validate);
+        }
+
+
+        $invoice = AppInvoice::find($id);
+
+        if ($data["due_day"] < 1 || $data["due_day"] > $dayOfMonth = date("t", strtotime($invoice->due_at))) {
+            $validate->errors()->add("message", "O vencimento deve ser entre dia 1 e dia {$dayOfMonth} para este mês.");
+        }
+
+        if (count($validate->errors()) > 0) {
+            return redirect()->route('app.invoice', ["id" => $id])->withErrors($validate);
+        }
+
+        //Fazer a verificação da Wallet
+
+        $due_day = date("Y-m", strtotime($invoice->due_at)) . "-" . $data["due_day"];
+
+        $invoice->wallet_id = $data["wallet"];
+        $invoice->category_id = $data["category"];
+        $invoice->description = $data["description"];
+        $invoice->value = str_replace([".", ","], ["", "."], $data["value"]);
+        $invoice->currency = $data["currency"];
+        $invoice->due_at = date("Y-m-d", strtotime($due_day));
+        $invoice->status = $data["status"];
+        $invoice->save();
+
+        $invoiceOf = AppInvoice::where("user_id", Auth::user()->id)
+            ->where("invoice_of", $invoice->id)->get();
+
+        if (!empty($invoiceOf) && in_array($invoice->type, ["fixed_income", "fixed_expense"])) {
+            foreach ($invoiceOf as $invoiceItem) {
+                if ($data["status"] == "unpaid" && $invoiceItem->status == "unpaid") {
+                    $invoiceItem->delete();
+                } else {
+                    $due_day = date("Y-m", strtotime($invoiceItem->due_at)) . "-" . $data["due_day"];
+                    $invoiceItem->category_id = $data["category"];
+                    $invoiceItem->description = $data["description"];
+                    $invoiceItem->wallet_id = $data["wallet"];
+
+                    if ($invoiceItem->status == "unpaid") {
+                        $invoiceItem->value = str_replace([".", ","], ["", "."], $data["value"]);
+                        $invoiceItem->due_at = date("Y-m-d", strtotime($due_day));
+                    }
+
+                    $invoiceItem->save();
+                }
+            }
+
+            (new AppInvoice())->fixed(Auth::user(), 3);
+        }
+
+        $type = ($data['type'] == 'income')? "Receita" : "Despesa";
+        return redirect()->route('app.invoice', ["id" => $id])
+            ->with('success', "Sua {$type} foi atualizada com sucesso!");
     }
 
     public function search(Request $request)
