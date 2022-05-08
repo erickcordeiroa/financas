@@ -81,7 +81,7 @@ class AppController extends Controller
         $categories = AppCategory::all();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
 
-        $income = AppInvoice::where('user_id', Auth::user()->id)
+        $income = AppInvoice::with('categories')->where('user_id', Auth::user()->id)
             ->where('type', 'income')
             ->whereMonth('due_at', date('m'))
             ->orderBy('due_at', 'ASC')
@@ -104,9 +104,9 @@ class AppController extends Controller
     public function expense(Request $request)
     {
         $categories = AppCategory::all();
-        $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
+        $wallets = AppWallet::where('user_id', auth()->user()->id)->get();
 
-        $expense = AppInvoice::where('user_id', Auth::user()->id)
+        $expense = AppInvoice::with('categories')->where('user_id', Auth::user()->id)
             ->where('type', 'expense')
             ->whereMonth('due_at', date('m'))
             ->orderBy('due_at', 'ASC')
@@ -131,7 +131,7 @@ class AppController extends Controller
         $categories = AppCategory::all();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
 
-        $invoices = AppInvoice::where('user_id', Auth::user()->id)
+        $invoices = AppInvoice::with('categories')->where('user_id', Auth::user()->id)
             ->whereIn('type', ['fixed_income', 'fixed_expense'])
             ->orderBy('due_at', 'ASC')
             ->paginate(25);

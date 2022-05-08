@@ -48,11 +48,11 @@
 
         <div class="row mb-2">
             <div class="col-md-6">
-                <button class="btn btn-small btn-outline-success btn-block" data-toggle="modal" data-target="#modalIncome">
+                <button class="btn btn-lg btn-outline-success btn-block" data-toggle="modal" data-target="#modalIncome">
                     <i class="fas fa-plus-circle mr-1"></i> Nova Receita</button>
             </div>
             <div class="col-md-6 float-right">
-                <button class="btn btn-small btn-outline-danger btn-block" data-toggle="modal" data-target="#modalExpense">
+                <button class="btn btn-lg btn-outline-danger btn-block" data-toggle="modal" data-target="#modalExpense">
                     <i class="fas fa-plus-circle mr-1"></i> Nova Despesa</button>
             </div>
         </div><!-- row top filter -->

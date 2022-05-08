@@ -25,11 +25,11 @@ Route::prefix('/app')->middleware(['auth', 'client'])->group(function(){
     //Filter invoices
     Route::any('/invoice/search', [\App\Http\Controllers\Clients\AppController::class, 'search'])->name('app.search');
 
-    Route::get('/dashboard', [App\Http\Controllers\Clients\AppDashboardController::class, 'index'])->name('app.dash');
+    Route::get('/controle', [App\Http\Controllers\Clients\AppDashboardController::class, 'index'])->name('app.dash');
     Route::post('/launch', [App\Http\Controllers\Clients\AppController::class, 'launch'])->name('app.launch');
-    Route::get('/income', [App\Http\Controllers\Clients\AppController::class, 'income'])->name('app.income');
-    Route::get('/expense', [App\Http\Controllers\Clients\AppController::class, 'expense'])->name('app.expense');
-    Route::get('/fixed', [App\Http\Controllers\Clients\AppController::class, 'fixed'])->name('app.fixed');
+    Route::get('/receitas', [App\Http\Controllers\Clients\AppController::class, 'income'])->name('app.income');
+    Route::get('/despesas', [App\Http\Controllers\Clients\AppController::class, 'expense'])->name('app.expense');
+    Route::get('/fixas', [App\Http\Controllers\Clients\AppController::class, 'fixed'])->name('app.fixed');
 
     //Update Invoice
     Route::get('/invoice/{id}', [App\Http\Controllers\Clients\AppController::class, 'invoice'])->name('app.invoice');

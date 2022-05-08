@@ -127,11 +127,11 @@
                             </div> <!-- ROW -->
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-outline-danger"><i class="fas fa-times"></i>
+                            <button type="submit" class="btn btn-small btn-outline-danger"><i class="fas fa-times"></i>
                                 EXCLUIR</button>
-                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> EDITAR
+                            <button type="submit" class="btn btn-lg btn-success"><i class="fas fa-check"></i> EDITAR
                                 {{ $invoice->type == 'income' ? 'RECEITA' : 'DESPESA' }}</button>
-                            <a href="{{ route('app.dash') }}" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</a>
+                            <a href="{{ route('app.dash') }}" class="btn btn-small btn-outline-secondary" data-dismiss="modal">Cancelar</a>
                         </div>
                     </form>
                 </div>

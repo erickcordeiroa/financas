@@ -233,7 +233,7 @@ return [
         // Sidebar items:
         [
             'text'        => 'Controle',
-            'url'         => 'app/dashboard',
+            'url'         => 'app/controle',
             'icon'        => 'fas fa-home',
             'can'         => 'user-client',
         ],
@@ -245,19 +245,19 @@ return [
         ],
         [
             'text'        => 'Contas a Receber',
-            'url'         => 'app/income',
+            'url'         => 'app/receitas',
             'icon'        => 'fas fa-calendar-check',
             'can'         => 'user-client',
         ],
         [
             'text'        => 'Contas a Pagar',
-            'url'         => 'app/expense',
+            'url'         => 'app/despesas',
             'icon'        => 'fas fa-calendar-times',
             'can'         => 'user-client',
         ],
         [
             'text'        => 'Contas Fixas',
-            'url'         => 'app/fixed',
+            'url'         => 'app/fixas',
             'icon'        => 'fas fa-exchange-alt',
             'can'         => 'user-client',
         ],
