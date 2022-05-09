@@ -34,6 +34,13 @@ Route::prefix('/app')->middleware(['auth', 'client'])->group(function(){
     //Update Invoice
     Route::get('/invoice/{id}', [App\Http\Controllers\Clients\AppController::class, 'invoice'])->name('app.invoice');
     Route::put('/invoice/{id}', [App\Http\Controllers\Clients\AppController::class, 'updateInvoice'])->name('app.update.invoice');
+    
+    //Delete Invoice
+    Route::delete('/invoice/{id}', [App\Http\Controllers\Clients\AppController::class, 'destroy'])->name('app.delete.invoice');
+
+    //Profile User Update
+    Route::get('/perfil', [App\Http\Controllers\Clients\UserController::class, 'show'])->name('app.profile');
+    Route::put('/perfil', [App\Http\Controllers\Clients\UserController::class, 'update'])->name('app.update.profile');
 
 });
 

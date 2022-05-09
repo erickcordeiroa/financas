@@ -48,7 +48,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 col-sm-12">
                 <div class="card">
-                    <form action="{{ route('app.update.invoice', ['id' => $invoice->id]) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('app.update.invoice', ['id' => $invoice->id]) }}" method="post"
+                        enctype="multipart/form-data">
                         <div class="modal-body">
                             @method('PUT')
                             @csrf
@@ -127,11 +128,18 @@
                             </div> <!-- ROW -->
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-small btn-outline-danger"><i class="fas fa-times"></i>
-                                EXCLUIR</button>
+                            <form action="{{ route('app.delete.invoice', ['id' => $invoice->id]) }}">
+                                @method('DELETE')
+                                @csrf
+                                <button onclick="return confirm('Você tem certeza que deseja excluir esse registro?');" 
+                                    type="submit" class="btn btn-small btn-outline-danger"><i
+                                        class="fas fa-times"></i>
+                                    EXCLUIR</button>
+                            </form>
                             <button type="submit" class="btn btn-lg btn-success"><i class="fas fa-check"></i> EDITAR
                                 {{ $invoice->type == 'income' ? 'RECEITA' : 'DESPESA' }}</button>
-                            <a href="{{ route('app.dash') }}" class="btn btn-small btn-outline-secondary" data-dismiss="modal">Cancelar</a>
+                            <a href="{{ route('app.dash') }}" class="btn btn-small btn-outline-secondary"
+                                data-dismiss="modal">Cancelar</a>
                         </div>
                     </form>
                 </div>

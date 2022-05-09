@@ -264,7 +264,7 @@ return [
         ['header' => 'account_settings'],
         [
             'text' => 'Meu Perfil',
-            'url'  => 'app/settings',
+            'url'  => 'app/perfil',
             'icon' => 'fas fa-fw fa-user',
             'can'  => 'user-client'
         ],

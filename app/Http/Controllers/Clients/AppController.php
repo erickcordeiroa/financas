@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Clients\AppCategory;
 use App\Models\Clients\AppInvoice;
 use App\Models\Clients\AppWallet;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -229,7 +230,7 @@ class AppController extends Controller
             (new AppInvoice())->fixed(Auth::user(), 3);
         }
 
-        $type = ($data['type'] == 'income')? "Receita" : "Despesa";
+        $type = ($data['type'] == 'income') ? "Receita" : "Despesa";
         return redirect()->route('app.invoice', ["id" => $id])
             ->with('success', "Sua {$type} foi atualizada com sucesso!");
     }
@@ -264,6 +265,21 @@ class AppController extends Controller
             'wallets' => $wallets,
             'invoice' => $invoice
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $invoice = AppInvoice::find($id);
+
+        if (!$invoice) {
+            return redirect()->route('app.dash')
+                ->with('error', 'Registro que tentou excluir não existe, verifique!');
+        }
+
+        $invoice->delete();
+
+        return redirect()->route('app.dash')
+                ->with('success', 'O seu registro foi excluido com sucesso!');
     }
 
     /**************************************
