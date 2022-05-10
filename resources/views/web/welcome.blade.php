@@ -55,8 +55,16 @@
                     <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                     <li><a class="nav-link scrollto" href="#about">Sobre</a></li>
                     <li><a class="nav-link scrollto" href="#pricing">Preços</a></li>
-                    <li><a class="nav-link" href="{{ route('login') }}">Entrar</a></li>
-                    <li><a class="btn-get-started btn-register" href="{{ route('register') }}">Cadastre-se</a></li>
+                    @auth
+                        <li><a class="btn-get-started btn-register" href="{{ route('app.dash') }}">
+                                <div class="icon" style="position: relative"><i
+                                        style="font-size: 18px; position:relative; top: 3px" class="bx bx-log-in"></i> Controlar
+                                </div>
+                            </a></li>
+                    @else
+                        <li><a class="nav-link" href="{{ route('login') }}">Entrar</a></li>
+                        <li><a class="btn-get-started btn-register" href="{{ route('register') }}">Cadastre-se</a></li>
+                    @endauth
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -75,7 +83,8 @@
                         <h2>Cadastre-se, lance suas contas e conte com automações poderosas para gerenciar tudo enquanto
                             você toma um bom café!</h2>
                         <div class="text-center text-lg-start">
-                            <a href="{{ route('register') }}" class="btn-get-started scrollto">Quero começar a controlar</a>
+                            <a href="{{ route('register') }}" class="btn-get-started scrollto">Quero começar a
+                                controlar</a>
                         </div>
                     </div>
                 </div>
@@ -421,7 +430,7 @@
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Termos de Serviço</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Politica de Privacidade</a></li>
                         </ul>
-                    </div>                   
+                    </div>
 
                     <div class="col-lg-4 col-md-6 footer-newsletter">
                         <h4>Nossas Novidades</h4>
