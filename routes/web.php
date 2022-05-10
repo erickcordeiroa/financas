@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 //Routers Web
-Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('web.home');
 
 //Routers App
 Route::prefix('/app')->middleware(['auth', 'client'])->group(function(){

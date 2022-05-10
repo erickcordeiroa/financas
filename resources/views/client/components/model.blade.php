@@ -249,6 +249,7 @@
     </div>
 </div>
 
+
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"></script>
     <script>
@@ -263,7 +264,7 @@
             let checkboxVal = checkbox.data('checkbox');
             $('input[type=radio]').removeAttr('checked');
 
-            if (checkboxVal == 'single') {    
+            if (checkboxVal == 'single') {
                 checkbox.parent().find('input[type=radio]').attr('checked', 'checked');
                 $('.repeate_item').slideUp();
                 $('.repeate_item_fixed').css('style', 'none');
