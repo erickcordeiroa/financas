@@ -239,7 +239,7 @@ return [
         ],
         [
             'text'        => 'Carteiras',
-            'url'         => 'app/wallets',
+            'url'         => 'app/carteiras',
             'icon'        => 'fas fa-wallet',
             'can'         => 'user-client',
         ],

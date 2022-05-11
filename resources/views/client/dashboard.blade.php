@@ -74,16 +74,17 @@
                             data-target="#modalExpense">
                             <i class="fas fa-plus-circle mr-1"></i> Nova Despesa</button></div>
                 </div>
-                <div class="small-box mx-2 bg-{{ $balance->color }}">
+                <div class="small-box mx-2 {{ $wallet->balance == 'positive' ? 'bg-success' : 'bg-danger' }}">
                     <div class="pb-4 pt-4 px-4">
-                        <h3>R$ {{ number_format($balance->sumIncome - $balance->sumExpense, 2, ',', '.') }}</h3>
-                        <p class="mb-0">Receitas: R$ {{ number_format($balance->sumIncome, 2, ',', '.') }}</p>
-                        <p class="mb-2">Despesas: R$ {{ number_format($balance->sumExpense, 2, ',', '.') }}</p>
+                        <h2>Saldo Geral</h2>
+                        <h3>R$ {{ number_format($wallet->wallet, 2, ',', '.') }}</h3>
+                        <p class="mb-0">Receitas: R$ {{ number_format($wallet->income, 2, ',', '.') }}</p>
+                        <p class="mb-2">Despesas: R$ {{ number_format($wallet->expense, 2, ',', '.') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-chart-pie"></i>
                     </div>
-                    <a href="{{ route('app.income') }}" class="small-box-footer">
+                    <a href="{{ $wallet->balance == 'positive'? route('app.income'): route('app.expense') }}" class="small-box-footer">
                         Mais Informações <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -103,11 +104,22 @@
                                 <div class="table-responsive">
                                     <table class="table m-0">
                                         <tbody>
-                                            @foreach ($income as $item)
-                                                @include('client.components.balance', [
-                                                    'invoice' => $item,
-                                                ])
-                                            @endforeach
+                                            @if (!$income->isEmpty())
+                                                @foreach ($income as $item)
+                                                    @include('client.components.balance', [
+                                                        'invoice' => $item,
+                                                    ])
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td>
+                                                        <p class="alert alert-success"><i
+                                                                class="fas fa-exclamation-triangle"></i> No
+                                                            momento, não existem contas registradas. Comece lançando agora mesmo!
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -125,11 +137,22 @@
                                 <div class="table-responsive">
                                     <table class="table m-0">
                                         <tbody>
-                                            @foreach ($expense as $item)
-                                                @include('client.components.balance', [
-                                                    'invoice' => $item,
-                                                ])
-                                            @endforeach
+                                            @if (!$expense->isEmpty())
+                                                @foreach ($expense as $item)
+                                                    @include('client.components.balance', [
+                                                        'invoice' => $item,
+                                                    ])
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td>
+                                                        <p class="alert alert-danger"><i
+                                                                class="fas fa-exclamation-triangle"></i> No
+                                                            momento, não existem contas registradas. Comece lançando agora mesmo!
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

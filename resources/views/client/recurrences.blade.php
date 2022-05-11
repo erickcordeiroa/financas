@@ -71,23 +71,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($invoice as $item)
-                                    <tr>
-                                        <td><a href="{{ route('app.invoice', ['id' => $item->id]) }}" class="text-bold">
-                                            {{ ($item->type == "fixed_income" ? "Receita / " : "Despesa / "); }}
-                                            {{ $item->description }}
-                                        </a></td>
-                                        <td> Dia {{ (new DateTime($item->due_at))->format('d') }}</td>
-                                        <td>{{ $item->categories->name }}</td>
-                                        <td>
-                                            <span
-                                                class="badge {{ $item->status == 'paid' ? 'badge-success' : 'badge-danger' }} badge-success">
+                                @if (!$invoice->isEmpty())
+                                    @foreach ($invoice as $item)
+                                        <tr>
+                                            <td><a href="{{ route('app.invoice', ['id' => $item->id]) }}"
+                                                    class="text-bold">
+                                                    {{ $item->type == 'fixed_income' ? 'Receita / ' : 'Despesa / ' }}
+                                                    {{ $item->description }}
+                                                </a></td>
+                                            <td> Dia {{ (new DateTime($item->due_at))->format('d') }}</td>
+                                            <td>{{ $item->categories->name }}</td>
+                                            <td>
+                                                <span
+                                                    class="badge {{ $item->status == 'paid' ? 'badge-success' : 'badge-danger' }} badge-success">
                                                     {{ $item->status == 'paid' ? 'Ativo' : 'Inativo' }}
-                                            </span>
+                                                </span>
+                                            </td>
+                                            <td>{{ number_format($item->value, 2, ',', '.') }}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="5">
+                                            <p class="alert alert-info"><i class="fas fa-exclamation-triangle"></i> No
+                                                momento, não existem contas fixas. Comece lançando agora mesmo!</p>
                                         </td>
-                                        <td>{{ number_format($item->value, 2, ',', '.') }}</td>
                                     </tr>
-                                @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

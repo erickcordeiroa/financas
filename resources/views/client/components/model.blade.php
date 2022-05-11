@@ -249,7 +249,6 @@
     </div>
 </div>
 
-
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"></script>
     <script>

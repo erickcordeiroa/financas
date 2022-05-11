@@ -5,10 +5,13 @@ namespace App\Models\Clients;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class AppInvoice extends Model
 {
     use HasFactory;
+
+    public $wallet;
 
     protected $fillable = [
         'user_id', 'wallet_id', 'category_id', 'description', 'type', 'value', 'due_at', 'repeat_when'
@@ -17,6 +20,58 @@ class AppInvoice extends Model
     public function categories()
     {
         return $this->belongsTo(AppCategory::class, 'category_id');
+    }
+
+    public function balance(User $user): object
+    {
+        $balance = new \stdClass();
+        $balance->income = 0;
+        $balance->expense = 0;
+        $balance->wallet = 0;
+        $balance->balance = "positive";
+
+        $find = $this->selectRaw("
+                (SELECT SUM(value) FROM app_invoices WHERE user_id = {$user->id} AND status = 'paid' AND type = 'income' {$this->wallet}) AS income,
+                (SELECT SUM(value) FROM app_invoices WHERE user_id =  {$user->id} AND status = 'paid' AND type = 'expense' {$this->wallet}) AS expense
+            ")->where('user_id', auth()->user()->id)
+            ->where('status', 'paid')
+            ->first();
+
+        if ($find) {
+            $balance->income = abs($find->income);
+            $balance->expense = abs($find->expense);
+            $balance->wallet = $balance->income - $balance->expense;
+            $balance->balance = ($balance->wallet >= 1 ? "positive" : "negative");
+        }
+
+        return $balance;
+    }
+
+
+    public function balanceWallet(AppWallet $wallet): object
+    {
+        $user = Auth::user();
+        $balance = new \stdClass();
+        $balance->income = 0;
+        $balance->expense = 0;
+        $balance->wallet = 0;
+        $balance->balance = "positive";
+
+        $find = $this->selectRaw("
+            (SELECT SUM(value) FROM app_invoices WHERE user_id = {$user->id} AND wallet_id = {$wallet->id} AND status = 'paid' AND type = 'income') AS income,
+            (SELECT SUM(value) FROM app_invoices WHERE user_id = {$user->id} AND wallet_id = {$wallet->id} AND status = 'paid' AND type = 'expense') AS expense
+        ")->where('user_id', auth()->user()->id)
+            ->where('status', 'paid')
+            ->first();
+
+        if ($find) {
+            $balance->income = abs($find->income);
+            $balance->expense = abs($find->expense);
+            $balance->wallet = $balance->income - $balance->expense;
+            $balance->balance = ($balance->wallet >= 1 ? "positive" : "negative");
+        }
+
+        return $balance;
     }
 
     public function fixed($user, int $afterMonths = 1)

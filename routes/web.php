@@ -31,6 +31,11 @@ Route::prefix('/app')->middleware(['auth', 'client'])->group(function(){
     Route::get('/despesas', [App\Http\Controllers\Clients\AppController::class, 'expense'])->name('app.expense');
     Route::get('/fixas', [App\Http\Controllers\Clients\AppController::class, 'fixed'])->name('app.fixed');
 
+    //Wallets
+    Route::get('/carteiras', [App\Http\Controllers\Clients\WalletController::class, 'index'])->name('app.wallets');
+    Route::post('/carteiras', [App\Http\Controllers\Clients\WalletController::class, 'store'])->name('app.store.wallets');
+    Route::delete('/carteiras/{id}', [App\Http\Controllers\Clients\WalletController::class, 'destroy'])->name('app.delete.wallets');
+
     //Update Invoice
     Route::get('/invoice/{id}', [App\Http\Controllers\Clients\AppController::class, 'invoice'])->name('app.invoice');
     Route::put('/invoice/{id}', [App\Http\Controllers\Clients\AppController::class, 'updateInvoice'])->name('app.update.invoice');

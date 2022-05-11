@@ -13,34 +13,44 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($invoice as $item)
+                @if (!$invoice->isEmpty())
+                    @foreach ($invoice as $item)
+                        <tr>
+                            <td><a href="{{ route('app.invoice', ['id' => $item->id]) }}"
+                                    class="text-bold">{{ $item->description }}</a></td>
+                            <td> Dia {{ (new DateTime($item->due_at))->format('d/m') }}</td>
+                            <td>{{ $item->categories->name }}</td>
+                            @if ($item->repeat_when == 'enrollment')
+                                <td>{{ $item->enrollments_of }} de {{ $item->enrollments }}</td>
+                            @elseif($item->repeat_when == 'fixed')
+                                <td><i class="fas fa-exchange-alt"></i> Fixa</td>
+                            @else
+                                <td>Única</td>
+                            @endif
+                            <td>
+                                <span
+                                    class="badge {{ $item->status == 'paid' ? 'badge-success' : 'badge-danger' }} badge-success">
+                                    @if ($item->type == 'income')
+                                        {{ $item->status == 'paid' ? 'Recebido' : 'Em Aberto' }}
+                                    @else
+                                        {{ $item->status == 'paid' ? 'Pago' : 'Em Aberto' }}
+                                    @endif
+                                </span>
+                            </td>
+                            <td>{{ number_format($item->value, 2, ',', '.') }}</td>
+                            <td>
+                                {!! $item->status == 'paid' ? '<i class="text-success far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
                     <tr>
-                        <td><a href="{{ route('app.invoice', ['id' => $item->id]) }}" class="text-bold">{{ $item->description }}</a></td>
-                        <td> Dia {{ (new DateTime($item->due_at))->format('d/m') }}</td>
-                        <td>{{ $item->categories->name }}</td>
-                        @if ($item->repeat_when == 'enrollment')
-                            <td>{{ $item->enrollments_of }} de {{ $item->enrollments }}</td>
-                        @elseif($item->repeat_when == 'fixed')
-                            <td><i class="fas fa-exchange-alt"></i> Fixa</td>
-                        @else
-                            <td>Única</td>
-                        @endif
-                        <td>
-                            <span
-                                class="badge {{ $item->status == 'paid' ? 'badge-success' : 'badge-danger' }} badge-success">
-                                @if ($item->type == 'income')
-                                    {{ $item->status == 'paid' ? 'Recebido' : 'Em Aberto' }}
-                                @else
-                                    {{ $item->status == 'paid' ? 'Pago' : 'Em Aberto' }}
-                                @endif
-                            </span>
-                        </td>
-                        <td>{{ number_format($item->value, 2, ',', '.') }}</td>
-                        <td>
-                            {!! $item->status == 'paid' ? '<i class="text-success far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
+                        <td colspan="7">
+                            <p class="alert alert-info"><i class="fas fa-exclamation-triangle"></i> No
+                                momento, não existem contas registradas. Comece lançando agora mesmo! </p>
                         </td>
                     </tr>
-                @endforeach
+                @endif
             </tbody>
         </table>
     </div>

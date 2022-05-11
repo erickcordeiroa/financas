@@ -19,8 +19,8 @@ class AppDashboardController extends Controller
      */
     public function index()
     {
-        //Launch invoices fixed
         (new AppInvoice())->fixed(Auth::user(), 3);
+        (new AppWallet())->start(Auth::user());
 
         $categories = AppCategory::all();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
@@ -38,38 +38,17 @@ class AppDashboardController extends Controller
             ->limit(5)
             ->orderBy('due_at', 'DESC')->get();
 
-        $balance = $this->balanceInvoices();
+        $wallet = (new AppInvoice())->balance(Auth::user());
         $chart = $this->chartData(Auth::user());
 
         return view("client.dashboard", [
-            'balance' => $balance,
+            'wallet' => $wallet,
             'chart' => $chart,
             'categories' => $categories,
             'wallets' => $wallets,
             'expense' => $expense,
             'income' => $income,
         ]);
-    }
-
-    public function balanceInvoices()
-    {
-        $expense = AppInvoice::where('user_id', Auth::user()->id)
-            ->where('type', 'expense')
-            ->where('status', 'paid')
-            ->get();
-
-        $income = AppInvoice::where('user_id', Auth::user()->id)
-            ->where('status', 'paid')
-            ->where('type', 'income')
-            ->get();
-
-        $sumExpense = $expense->sum('value');
-        $sumIncome = $income->sum('value');
-
-        $bgColor = ($sumExpense > $sumIncome) ? 'danger' : 'success';
-        $result = (object)['sumExpense' => $sumExpense, 'sumIncome' => $sumIncome, 'color' => $bgColor];
-
-        return $result;
     }
 
     public function chartData(User $user): object

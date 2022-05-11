@@ -128,14 +128,6 @@
                             </div> <!-- ROW -->
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <form action="{{ route('app.delete.invoice', ['id' => $invoice->id]) }}">
-                                @method('DELETE')
-                                @csrf
-                                <button onclick="return confirm('Você tem certeza que deseja excluir esse registro?');" 
-                                    type="submit" class="btn btn-small btn-outline-danger"><i
-                                        class="fas fa-times"></i>
-                                    EXCLUIR</button>
-                            </form>
                             <button type="submit" class="btn btn-lg btn-success"><i class="fas fa-check"></i> EDITAR
                                 {{ $invoice->type == 'income' ? 'RECEITA' : 'DESPESA' }}</button>
                             <a href="{{ route('app.dash') }}" class="btn btn-small btn-outline-secondary"
@@ -143,6 +135,14 @@
                         </div>
                     </form>
                 </div>
+                <form action="{{ route('app.delete.invoice', ['id' => $invoice->id]) }}" method="post">
+                    @method('DELETE')
+                    @csrf
+                    <button onclick="return confirm('Você tem certeza que deseja excluir esse registro?');" 
+                        type="submit" class="btn btn-small text-danger"><i
+                            class="fas fa-times"></i>
+                        EXCLUIR</button>
+                </form>
             </div>
         </div>
     </div>
