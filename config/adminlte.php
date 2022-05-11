@@ -14,9 +14,9 @@ return [
     |
     */
 
-    'title' => 'SmartFin',
+    'title' => 'FinSmart',
     'title_prefix' => '',
-    'title_postfix' => '',
+    'title_postfix' => ' - Sistema Financeiro rápido, fácil e prático!',
 
     /*
     |--------------------------------------------------------------------------
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>Smart</b>Fin',
+    'logo' => '<b>Fin</b>Smart',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'SmartFin',
+    'logo_img_alt' => 'FinSmart',
 
     /*
     |--------------------------------------------------------------------------
