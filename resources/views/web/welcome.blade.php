@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>FinSmart - Sistema Financeiro rápido, fácil e prático!</title>
+    <title>ConTanno - Sistema Financeiro rápido, fácil e prático!</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -45,7 +45,7 @@
         <div class="container d-flex align-items-center justify-content-between">
 
             <div class="logo">
-                <h1><a href=" {{ route('web.home') }}  "><span>FinSmart</span></a></h1>
+                <h1><a href=" {{ route('web.home') }}  "><span>ConTanno</span></a></h1>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
             </div>
@@ -130,7 +130,7 @@
 
                     <div class="col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5"
                         data-aos="fade-left">
-                        <h3>O que você pode fazer com o FinSmart?</h3>
+                        <h3>O que você pode fazer com o ConTanno?</h3>
                         <p>São 3 passos simples para você começar a controlar suas contas. É tudo muito fácil, veja:</p>
 
                         <div class="icon-box" data-aos="zoom-in" data-aos-delay="100">
@@ -307,19 +307,19 @@
 
                 <div class="section-title" data-aos="fade-up">
                     <h2>F.A.Q</h2>
-                    <p>Confira as principais dúvidas e repostas sobre o FinSmart.</p>
+                    <p>Confira as principais dúvidas e repostas sobre o ConTanno.</p>
                 </div>
 
                 <div class="faq-list">
                     <ul>
                         <li data-aos="fade-up">
                             <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse"
-                                class="collapse" data-bs-target="#faq-list-1">O FinSmart é gratuito? <i
+                                class="collapse" data-bs-target="#faq-list-1">O ConTanno é gratuito? <i
                                     class="bx bx-chevron-down icon-show"></i><i
                                     class="bx bx-chevron-up icon-close"></i></a>
                             <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
                                 <p>
-                                    Sim, o FinSmart é gratuito e com ele você pode usar os recursos de controle e
+                                    Sim, o ConTanno é gratuito e com ele você pode usar os recursos de controle e
                                     automação sem qualquer custo ou cobrança.
                                     <br>
                                     No futuro pretendemos ter planos com recursos premium onde você terá ainda mais
@@ -331,12 +331,12 @@
 
                         <li data-aos="fade-up" data-aos-delay="100">
                             <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse"
-                                data-bs-target="#faq-list-2" class="collapsed">Como usar o FinSmart? <i
+                                data-bs-target="#faq-list-2" class="collapsed">Como usar o ConTanno? <i
                                     class="bx bx-chevron-down icon-show"></i><i
                                     class="bx bx-chevron-up icon-close"></i></a>
                             <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
                                 <p>
-                                    Para usar o FinSmart é simples, basta se cadastrar em nossa plataforma e começar a
+                                    Para usar o ConTanno é simples, basta se cadastrar em nossa plataforma e começar a
                                     cadastrar suas contas. <br>
                                     Detalhando contas rotineiras e recorrentes, todas com valor categorias e informações
                                     de controle. A Partir disso nosso App vai gerar automações e relatórios para te
@@ -347,7 +347,7 @@
 
                         <li data-aos="fade-up" data-aos-delay="200">
                             <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse"
-                                data-bs-target="#faq-list-3" class="collapsed">O que fazer com o FinSmart? <i
+                                data-bs-target="#faq-list-3" class="collapsed">O que fazer com o ConTanno? <i
                                     class="bx bx-chevron-down icon-show"></i><i
                                     class="bx bx-chevron-up icon-close"></i></a>
                             <div id="faq-list-3" class="collapse" data-bs-parent=".faq-list">
@@ -393,8 +393,8 @@
 
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-info">
-                            <h3>FinSmart</h3>
-                            <p>O FinSmart é um gerenciador de contas simples, poderoso e gratuito. O prazer de tomar um
+                            <h3>ConTanno</h3>
+                            <p>O ConTanno é um gerenciador de contas simples, poderoso e gratuito. O prazer de tomar um
                                 café e ter o controle total de suas contas.</p>
                             <div class="social-links mt-3">
                                 <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>

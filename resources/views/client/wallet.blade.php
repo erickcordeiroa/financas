@@ -48,7 +48,7 @@
         <!-- Wallets -->
         <div class="row">
             <div class="col-md-4">
-                <div class="card bg-gradient-info text-center p-1">
+                <div class="card bg-gradient-info text-center p-4">
                     <span style="font-size: 48px"><i class="fas fa-info-circle"></i></span>
                     <h3>Crie e gerencie suas carteiras</h3>
                     <p style="line-height: 1">Organize suas contas de diferentes fontes como <strong>Minha Casa para
@@ -63,7 +63,7 @@
             @if (!$wallets->isEmpty())
                 @foreach ($wallets as $item)
                     <div class="col-md-4">
-                        <div class="card bg-gradient-dark text-center p-3">
+                        <div class="card bg-gradient-dark text-center p-4">
                             <span style="font-size: 48px"><i class="fas fa-wallet"></i></span>
                             <h2>{{ $item->wallet }}</h2>
                             <h6>Receitas: R$ {{ number_format($item->balance()->income, 2, ',', '.') }}</h6>

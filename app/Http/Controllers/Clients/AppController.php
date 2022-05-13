@@ -267,6 +267,7 @@ class AppController extends Controller
         ]);
     }
 
+    //Excluir Invoice
     public function destroy($id)
     {
         $invoice = AppInvoice::find($id);

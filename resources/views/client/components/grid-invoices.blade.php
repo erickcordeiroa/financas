@@ -9,7 +9,6 @@
                     <th>Parcela</th>
                     <th>Status</th>
                     <th>Valor</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -38,9 +37,6 @@
                                 </span>
                             </td>
                             <td>{{ number_format($item->value, 2, ',', '.') }}</td>
-                            <td>
-                                {!! $item->status == 'paid' ? '<i class="text-success far fa-thumbs-up"></i>' : '<i class="text-danger far fa-thumbs-down"></i>' !!}
-                            </td>
                         </tr>
                     @endforeach
                 @else

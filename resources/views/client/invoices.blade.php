@@ -46,34 +46,41 @@
                 </div>
             @endif
         </div>
-        
+
         <div class="row">
             <div class="col-md-10">
 
                 <form action="{{ route('app.search') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="type" value="{{$type}}">
+                    <input type="hidden" name="type" value="{{ $type }}">
                     <div class="row">
                         <div class="form-group col-md-3">
                             <select name="status" class="form-control">
                                 <option value="">Todas</option>
-                                <option {{!empty($filters['status']) && $filters['status'] == 'paid'? 'selected': ''}} value="paid">Todas as {{$type == 'income'? "Recebidas" : "Pagas"}}</option>
-                                <option {{!empty($filters['status']) && $filters['status'] == 'unpaid'? 'selected': ''}} value="unpaid">Todas Em Aberto</option>
+                                <option {{ !empty($filters['status']) && $filters['status'] == 'paid' ? 'selected' : '' }}
+                                    value="paid">Todas as {{ $type == 'income' ? 'Recebidas' : 'Pagas' }}</option>
+                                <option
+                                    {{ !empty($filters['status']) && $filters['status'] == 'unpaid' ? 'selected' : '' }}
+                                    value="unpaid">Todas Em Aberto</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3">
                             <select name="category" class="form-control">
                                 <option value="">Todas</option>
                                 @foreach ($categories as $item)
-                                    <option {{!empty($filters['category']) && $filters['category'] == $item->id ? 'selected': ''}} value="{{ $item->id }}">{{ $item->name }}</option>
+                                    <option
+                                        {{ !empty($filters['category']) && $filters['category'] == $item->id ? 'selected' : '' }}
+                                        value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="date" name="start" placeholder="dd/mm/yyyy" class="form-control" value="{{!empty($filters['start'])? $filters['start']: ''}}">
+                            <input type="date" name="start" placeholder="dd/mm/yyyy" class="form-control"
+                                value="{{ !empty($filters['start']) ? $filters['start'] : '' }}">
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="date" name="end" placeholder="dd/mm/yyyy" class="form-control" value="{{!empty($filters['end'])? $filters['end']: ''}}">
+                            <input type="date" name="end" placeholder="dd/mm/yyyy" class="form-control"
+                                value="{{ !empty($filters['end']) ? $filters['end'] : '' }}">
                         </div>
                         <div class="form-group col-md-1">
                             <button type="submit" class="btn btn-outline-primary btn-small"><i
