@@ -22,7 +22,7 @@ class AppDashboardController extends Controller
         (new AppInvoice())->fixed(Auth::user(), 3);
         (new AppWallet())->start(Auth::user());
 
-        $categories = AppCategory::all();
+        $categories = AppCategory::where('user_id', auth()->user()->id)->get();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
         $expense = AppInvoice::where('user_id', Auth::user()->id)
             ->where('type', 'expense')

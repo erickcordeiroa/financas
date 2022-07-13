@@ -25,6 +25,14 @@ Route::prefix('/app')->middleware(['auth', 'client'])->group(function(){
     //Filter invoices
     Route::any('/invoice/search', [\App\Http\Controllers\Clients\AppController::class, 'search'])->name('app.search');
 
+    //Categories
+    Route::get('/categorias', [App\Http\Controllers\Clients\CategoriesController::class, 'index'])->name('app.categories');
+    Route::get('/categoria/nova', [App\Http\Controllers\Clients\CategoriesController::class, 'create'])->name('app.categories.create');
+    Route::post('/categoria/nova', [App\Http\Controllers\Clients\CategoriesController::class, 'store'])->name('app.categories.store');
+    Route::get('/categorias/{id}/editar', [App\Http\Controllers\Clients\CategoriesController::class, 'edit'])->name('app.categories.edit');
+    Route::put('/categorias/{id}/editar', [App\Http\Controllers\Clients\CategoriesController::class, 'update'])->name('app.categories.update');
+    Route::delete('/categorias/{id}/destroy', [App\Http\Controllers\Clients\CategoriesController::class, 'destroy'])->name('app.categories.destroy');
+
     Route::get('/controle', [App\Http\Controllers\Clients\AppDashboardController::class, 'index'])->name('app.dash');
     Route::post('/launch', [App\Http\Controllers\Clients\AppController::class, 'launch'])->name('app.launch');
     Route::get('/receitas', [App\Http\Controllers\Clients\AppController::class, 'income'])->name('app.income');

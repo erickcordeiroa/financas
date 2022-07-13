@@ -79,7 +79,7 @@ class AppController extends Controller
 
     public function income(Request $request)
     {
-        $categories = AppCategory::all();
+        $categories = AppCategory::where('user_id', auth()->user()->id)->get();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
 
         $income = AppInvoice::with('categories')->where('user_id', Auth::user()->id)
@@ -104,7 +104,7 @@ class AppController extends Controller
 
     public function expense(Request $request)
     {
-        $categories = AppCategory::all();
+        $categories = AppCategory::where('user_id', auth()->user()->id)->get();
         $wallets = AppWallet::where('user_id', auth()->user()->id)->get();
 
         $expense = AppInvoice::with('categories')->where('user_id', Auth::user()->id)
@@ -129,7 +129,7 @@ class AppController extends Controller
 
     public function fixed()
     {
-        $categories = AppCategory::all();
+        $categories = AppCategory::where('user_id', auth()->user()->id)->get();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
 
         $invoices = AppInvoice::with('categories')->where('user_id', Auth::user()->id)
@@ -147,7 +147,7 @@ class AppController extends Controller
 
     public function invoice($id)
     {
-        $categories = AppCategory::all();
+        $categories = AppCategory::where('user_id', auth()->user()->id)->get();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
 
         $invoices = AppInvoice::where('user_id', Auth::user()->id)
@@ -255,7 +255,7 @@ class AppController extends Controller
 
         $invoice = $this->filter($filters);
 
-        $categories = AppCategory::all();
+        $categories = AppCategory::where('user_id', auth()->user()->id)->get();
         $wallets = AppWallet::where('user_id', Auth::user()->id)->get();
 
         return view('client.invoices', [

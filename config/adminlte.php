@@ -269,10 +269,16 @@ return [
             'can'  => 'user-client'
         ],
         [
+            'text' => 'Categorias',
+            'url'  => 'app/categorias',
+            'icon' => 'fas fa-fw fa-paste',
+            'can'  => 'user-client'
+        ],
+        [
             'text' => 'Assinaturas',
             'url'  => 'app/assinaturas',
             'icon' => 'fas fa-mug-hot',
-            'can'  => 'user-client'
+            'can'  => 'user-admin'
         ],
         [
             'text'    => 'multilevel',
