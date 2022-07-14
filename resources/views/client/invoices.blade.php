@@ -54,7 +54,7 @@
                     @csrf
                     <input type="hidden" name="type" value="{{ $type }}">
                     <div class="row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <select name="status" class="form-control">
                                 <option value="">Todas</option>
                                 <option {{ !empty($filters['status']) && $filters['status'] == 'paid' ? 'selected' : '' }}
@@ -64,13 +64,25 @@
                                     value="unpaid">Todas Em Aberto</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <select name="category" class="form-control">
                                 <option value="">Todas</option>
                                 @foreach ($categories as $item)
+                                    @if ($item->type == $type)
+                                        <option
+                                            {{ !empty($filters['category']) && $filters['category'] == $item->id ? 'selected' : '' }}
+                                            value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <select name="wallet" class="form-control">
+                                <option value="">Todas</option>
+                                @foreach ($wallets as $item)
                                     <option
-                                        {{ !empty($filters['category']) && $filters['category'] == $item->id ? 'selected' : '' }}
-                                        value="{{ $item->id }}">{{ $item->name }}</option>
+                                        {{ !empty($filters['wallet']) && $filters['wallet'] == $item->id ? 'selected' : '' }}
+                                        value="{{ $item->id }}">{{ $item->wallet }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -97,8 +109,8 @@
                             <i class="fas fa-plus-circle mr-1"></i> Nova Receita</button>
                     </div>
                 @else
-                    <div class="col-md-12"><button class="btn btn-small btn-outline-danger btn-block"
-                            data-toggle="modal" data-target="#modalExpense">
+                    <div class="col-md-12"><button class="btn btn-small btn-outline-danger btn-block" data-toggle="modal"
+                            data-target="#modalExpense">
                             <i class="fas fa-plus-circle mr-1"></i> Nova Despesa</button></div>
                 @endif
             </div>

@@ -55,7 +55,9 @@
                                     Categoria:</label>
                                 <select name="category" required class="form-control">
                                     @foreach ($categories as $item)
-                                        <option value="{{ $item->id }}">&ofcir; {{ $item->name }}</option>
+                                        @if ($item->type == 'income')
+                                            <option value="{{ $item->id }}">&ofcir; {{ $item->name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -105,8 +107,8 @@
                             <div class="form-group">
                                 <div class="row">
                                     <label class="repeate_item repeate_item_enrollment col-12" style="display: none">
-                                        <input class="radius form-control" type="number" min="2" max="420"
-                                            placeholder="1 parcela" name="enrollments" />
+                                        <input class="radius form-control" type="number" min="2"
+                                            max="420" placeholder="1 parcela" name="enrollments" />
                                     </label>
                                 </div>
                             </div>
@@ -152,8 +154,8 @@
                             <div class="form-group">
                                 <label for="value" class="text-gray"><i class="far fa-money-bill-alt"></i>
                                     Valor:</label>
-                                <input type="text" name="value" required class="form-control" placeholder="0,00"
-                                    maxlength="22">
+                                <input type="text" name="value" required class="form-control"
+                                    placeholder="0,00" maxlength="22">
                             </div>
                         </div>
                         <div class="col-md-6 mb-2">
@@ -181,7 +183,9 @@
                                     Categoria:</label>
                                 <select name="category" required class="form-control">
                                     @foreach ($categories as $item)
-                                        <option value="{{ $item->id }}">&ofcir; {{ $item->name }}</option>
+                                        @if ($item->type == 'expense')
+                                            <option value="{{ $item->id }}">&ofcir; {{ $item->name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -231,8 +235,8 @@
                             <div class="form-group">
                                 <div class="row">
                                     <label class="repeate_item repeate_item_enrollment col-12" style="display: none">
-                                        <input class="radius form-control" type="number" min="2" max="420"
-                                            placeholder="1 parcela" name="enrollments" />
+                                        <input class="radius form-control" type="number" min="2"
+                                            max="420" placeholder="1 parcela" name="enrollments" />
                                     </label>
                                 </div>
                             </div>

@@ -76,7 +76,7 @@
                         </div>
                         <div class="modal-footer justify-content-center">
                             <button type="submit" class="btn btn-lg btn-success"><i class="fas fa-check"></i>
-                                Cadastrar</button>
+                                Atualizar</button>
                             <a href="{{ route('app.categories') }}" class="btn btn-small btn-outline-secondary"
                                 data-dismiss="modal">Cancelar</a>
                         </div>

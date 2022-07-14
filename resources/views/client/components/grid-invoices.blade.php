@@ -9,6 +9,7 @@
                     <th>Parcela</th>
                     <th>Status</th>
                     <th>Valor</th>
+                    <th>Carteira</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +38,7 @@
                                 </span>
                             </td>
                             <td>{{ number_format($item->value, 2, ',', '.') }}</td>
+                            <td>{{ $item->wallets->wallet }}</td>
                         </tr>
                     @endforeach
                 @else

@@ -22,6 +22,11 @@ class AppInvoice extends Model
         return $this->belongsTo(AppCategory::class, 'category_id');
     }
 
+    public function wallets()
+    {
+        return $this->belongsTo(AppWallet::class, 'wallet_id');
+    }
+
     public function balance(User $user): object
     {
         $balance = new \stdClass();

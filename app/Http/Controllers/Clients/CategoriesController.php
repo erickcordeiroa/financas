@@ -75,7 +75,7 @@ class CategoriesController extends Controller
         $category->save();
 
         return redirect()->route('app.categories')
-                ->with('success', 'Parabéns categoria cadastrada com sucesso!');
+                ->with('success', 'Parabéns categoria atualizada com sucesso!');
     }
 
     public function destroy($id)

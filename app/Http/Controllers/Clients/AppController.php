@@ -280,7 +280,7 @@ class AppController extends Controller
         $invoice->delete();
 
         return redirect()->route('app.dash')
-                ->with('success', 'O seu registro foi excluido com sucesso!');
+            ->with('success', 'O seu registro foi excluido com sucesso!');
     }
 
     /**************************************
@@ -312,75 +312,28 @@ class AppController extends Controller
 
     public function filter($filters)
     {
+
+        $status = $filters['status'];
+        $category = $filters['category'];
+        $wallet = $filters['wallet'];
+        $start = $filters['start'];
+        $end = $filters['end'];
+
         $invoice = AppInvoice::where('user_id', Auth::user()->id)
             ->where('type', $filters['type'])
+            ->when($status, function ($query) use ($status) {
+                return $query->where('status', $status);
+            })
+            ->when($category, function ($query) use ($category) {
+                return $query->where('category_id', $category);
+            })
+            ->when($wallet, function ($query) use ($wallet) {
+                return $query->where('wallet_id', $wallet);
+            })
+            ->when($start, function ($query) use ($start, $end) {
+                return $query->whereBetween('due_at', [$start, $end]);
+            })
             ->orderBy('due_at', 'ASC');
-
-        if (
-            !empty($filters['status']) && empty($filters['category'])
-            && empty($filters['start']) && empty($filters['end'])
-        ) {
-
-            $invoice->where('status', $filters['status']);
-        }
-
-        //Category Only
-        if (
-            empty($filters['status']) && !empty($filters['category'])
-            && empty($filters['start']) && empty($filters['end'])
-        ) {
-
-            $invoice->where('category_id', $filters['category']);
-        }
-
-        //Dates Only
-        if (
-            empty($filters['status']) && empty($filters['category'])
-            && !empty($filters['start']) && !empty($filters['end'])
-        ) {
-
-            $invoice->whereBetween('due_at', [$filters['start'], $filters['end']]);
-        }
-
-        //Category and Status
-        if (
-            !empty($filters['status']) && !empty($filters['category'])
-            && empty($filters['start']) && empty($filters['end'])
-        ) {
-
-            $invoice->where('status', $filters['status'])->where('category_id', $filters['category']);
-        }
-
-        //Status and Dates
-        if (
-            !empty($filters['status']) && empty($filters['category'])
-            && !empty($filters['start']) && !empty($filters['end'])
-        ) {
-
-            $invoice->where('status', $filters['status'])->whereBetween('due_at', [$filters['start'], $filters['end']]);
-        }
-
-        //Category and Dates
-        if (
-            empty($filters['status']) && !empty($filters['category'])
-            && !empty($filters['start']) && !empty($filters['end'])
-        ) {
-
-            $invoice->where('category_id', $filters['category'])->whereBetween('due_at', [$filters['start'], $filters['end']]);
-        }
-
-        //All
-        if (
-            !empty($filters['status']) && !empty($filters['category'])
-            && !empty($filters['start']) && !empty($filters['end'])
-        ) {
-
-            $invoice->where('status', $filters['status'])
-                ->where('category_id', $filters['category'])
-                ->whereBetween('due_at', [$filters['start'], $filters['end']]);
-        }
-
-
 
         return $invoice->paginate(25);
     }
