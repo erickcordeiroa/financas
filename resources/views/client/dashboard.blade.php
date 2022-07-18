@@ -8,10 +8,19 @@
                     <h1 class="m-0">Dashboard</h1>
                 </div>
                 <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('app.dash') }}"><i class="icon fas fa-home"></i>
-                                Controle</a></li>
-                    </ol>
+                    <div class="row justify-content-end">
+                        <div class="col-md-4 col-sm-12">
+                            <form method="GET">
+                                <select name="wallet" class="form-control" onchange="this.form.submit()">
+                                    <option value="">Saldo Geral</option>
+                                    @foreach ($wallets as $item)
+                                        <option {{ $walletSelected == $item->id ? 'selected' : '' }}
+                                            value="{{ $item->id }}">{{ $item->wallet }}</option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,7 +85,7 @@
                 </div>
                 <div class="small-box mx-2 {{ $wallet->balance == 'positive' ? 'bg-success' : 'bg-danger' }}">
                     <div class="pb-4 pt-4 px-4">
-                        <h2>Saldo Geral</h2>
+                        <h2>{{$wallet->walletName}}</h2>
                         <h3>R$ {{ number_format($wallet->wallet, 2, ',', '.') }}</h3>
                         <p class="mb-0">Receitas: R$ {{ number_format($wallet->income, 2, ',', '.') }}</p>
                         <p class="mb-2">Despesas: R$ {{ number_format($wallet->expense, 2, ',', '.') }}</p>
@@ -84,7 +93,8 @@
                     <div class="icon">
                         <i class="fas fa-chart-pie"></i>
                     </div>
-                    <a href="{{ $wallet->balance == 'positive'? route('app.income'): route('app.expense') }}" class="small-box-footer">
+                    <a href="{{ $wallet->balance == 'positive' ? route('app.income') : route('app.expense') }}"
+                        class="small-box-footer">
                         Mais Informações <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -115,7 +125,8 @@
                                                     <td>
                                                         <p class="alert alert-success"><i
                                                                 class="fas fa-exclamation-triangle"></i> No
-                                                            momento, não existem contas registradas. Comece lançando agora mesmo!
+                                                            momento, não existem contas registradas. Comece lançando agora
+                                                            mesmo!
                                                         </p>
                                                     </td>
                                                 </tr>
@@ -148,7 +159,8 @@
                                                     <td>
                                                         <p class="alert alert-danger"><i
                                                                 class="fas fa-exclamation-triangle"></i> No
-                                                            momento, não existem contas registradas. Comece lançando agora mesmo!
+                                                            momento, não existem contas registradas. Comece lançando agora
+                                                            mesmo!
                                                         </p>
                                                     </td>
                                                 </tr>

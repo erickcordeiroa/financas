@@ -27,17 +27,25 @@ class AppInvoice extends Model
         return $this->belongsTo(AppWallet::class, 'wallet_id');
     }
 
-    public function balance(User $user): object
+    public function balance(User $user, $wallet = null): object
     {
         $balance = new \stdClass();
         $balance->income = 0;
         $balance->expense = 0;
         $balance->wallet = 0;
         $balance->balance = "positive";
+        $balance->walletName = "Saldo Geral";
+
+        if($wallet){
+            $concat = "wallet_id = {$wallet} AND";
+        }else {
+            $concat = "";
+        }
+        
 
         $find = $this->selectRaw("
-                (SELECT SUM(value) FROM app_invoices WHERE user_id = {$user->id} AND status = 'paid' AND type = 'income' {$this->wallet}) AS income,
-                (SELECT SUM(value) FROM app_invoices WHERE user_id =  {$user->id} AND status = 'paid' AND type = 'expense' {$this->wallet}) AS expense
+                (SELECT SUM(value) FROM app_invoices WHERE {$concat} user_id = {$user->id} AND status = 'paid' AND type = 'income' {$this->wallet}) AS income,
+                (SELECT SUM(value) FROM app_invoices WHERE {$concat} user_id =  {$user->id} AND status = 'paid' AND type = 'expense' {$this->wallet}) AS expense
             ")->where('user_id', auth()->user()->id)
             ->where('status', 'paid')
             ->first();
@@ -47,6 +55,7 @@ class AppInvoice extends Model
             $balance->expense = abs($find->expense);
             $balance->wallet = $balance->income - $balance->expense;
             $balance->balance = ($balance->wallet >= 1 ? "positive" : "negative");
+            $balance->walletName = ($wallet != null)? AppWallet::find($wallet)->wallet : 'Saldo Geral';
         }
 
         return $balance;
