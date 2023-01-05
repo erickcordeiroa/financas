@@ -15,6 +15,7 @@ class CreateAppCategoriesTable extends Migration
     {
         Schema::create('app_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->string('name');
             $table->string('type');
             $table->integer('order_by');
